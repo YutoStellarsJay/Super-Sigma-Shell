@@ -1,5 +1,7 @@
 local isLinuxy = package.config:sub(1, 1) == "/"
 
+io.stdout:setvbuf("no", 1)
+
 local function Play(index)
     if isLinuxy then
         os.execute("afplay phonk/" .. tostring(index) .. ".mp3 &")
@@ -65,9 +67,9 @@ while true do
         local temp = string.find(string.reverse(out), "/")
         if not temp then return end
         temp = temp - 2
-        io.write("💀:\\🗣️  " .. string.sub(out, #out - temp, #out - 1) .. " % ")
+        io.write("🗿@🤫 " .. string.sub(out, #out - temp, #out - 1) .. " % ")
     else
-        io.write("🗿@🤫 ")
+        io.write("💀:\\🗣️  ")
     end
     input = io.read()
     if input == "exit" then
@@ -78,9 +80,9 @@ while true do
         asciiInd = math.random(1, 11)
     end
     lastImage = asciiInd
-    local soundInd = math.random(1, 12)
+    local soundInd = math.random(1, 14)
     while soundInd == lastSound do
-        soundInd = math.random(1, 12)
+        soundInd = math.random(1, 14)
     end
     lastSound = soundInd
     local message = "\"" .. input .. "\""
@@ -93,7 +95,11 @@ while true do
     elseif string.find(input, "cat", 1, true) == 1 or string.find(input, "type", 1, true) == 1 or string.find(input, "Get-Content", 1, true) == 1 then
         message = "Bro is reading the file"
     end
-    EditFreeze(soundInd, asciiInd, message)
-    os.execute(input)
+    if string.len(input) ~= 0 then
+        EditFreeze(soundInd, asciiInd, message)
+        os.execute(input)
+    else
+        ClearCons()
+    end
 end
 ::exit::
