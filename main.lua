@@ -1,10 +1,11 @@
 local isLinuxy = package.config:sub(1, 1) == "/"
+local configuration = require("config")
 
 io.stdout:setvbuf("no", 1)
 
 local function Play(index)
     if isLinuxy then
-        os.execute("afplay phonk/" .. tostring(index) .. ".mp3 &")
+        os.execute("afplay phonk/" .. tostring(index) .. ".mp3 -v " .. configuration.MAC_ONLY_VOLUME_PERCENT .. " &")
     else
         os.execute("start /B wmplayer \"phonk\\" .. tostring(index) .. ".mp3\"")
     end
@@ -50,7 +51,8 @@ local function EditFreeze(soundInd, asciiInd, editText)
     for i = 0, 50 do
         ClearCons()
         io.write(centeringSpaces .. editText)
-        io.write(string.rep("\n", 6 + Round((math.sin(i)) * math.min((i - 45) * 0.11, 0))))
+        io.write(string.rep("\n",
+            math.max(6 + Round((math.sin(i)) * math.min((i - 45) * configuration.WOBBLE_PERCENT, 0)), 0)))
         --6+(\sin(x))\cdot\min\left((x-30)\cdot0.12,0\right) for desmos graph (absolute goat)
         print(ascii)
         Sleep(SleepTimes[soundInd] / 50)
